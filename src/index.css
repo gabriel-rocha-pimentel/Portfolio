@@ -1,0 +1,106 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+    --primary: 262.1 83.3% 57.8%; /* Vibrant Purple */
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 225.5 8.9% 43.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 355.7 100% 97.3%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 262.1 83.3% 57.8%; /* Vibrant Purple for focus rings */
+    --radius: 0.75rem; /* Slightly more rounded corners */
+  }
+
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 355.7 100% 97.3%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 355.7 100% 97.3%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 355.7 100% 97.3%;
+    --primary: 262.1 83.3% 57.8%; /* Consistent Vibrant Purple */
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 355.7 100% 97.3%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 355.7 100% 97.3%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 355.7 100% 97.3%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 262.1 83.3% 57.8%; /* Consistent Vibrant Purple for focus rings */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif; /* Modern, clean font */
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+  }
+  h1 {
+    @apply text-4xl lg:text-5xl; /* Larger headings */
+  }
+  h2 {
+    @apply text-3xl lg:text-4xl;
+  }
+  h3 {
+    @apply text-2xl lg:text-3xl;
+  }
+}
+
+/* Add a subtle background pattern or gradient */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.05; /* Subtle opacity */
+  background-image: linear-gradient(45deg, hsl(var(--primary) / 0.5) 25%, transparent 25%),
+                    linear-gradient(-45deg, hsl(var(--primary) / 0.5) 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, hsl(var(--primary) / 0.5) 75%),
+                    linear-gradient(-45deg, transparent 75%, hsl(var(--primary) / 0.5) 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+/* Glassmorphism effect for cards (optional, can be applied with a class) */
+.glass-card {
+  background: rgba(255, 255, 255, 0.1); /* Adjust alpha for desired transparency */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius);
+}
+
+.dark .glass-card {
+  background: rgba(30, 30, 40, 0.2); /* Dark mode glass effect */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+  

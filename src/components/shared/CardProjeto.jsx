@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Github, ExternalLink, Tag } from 'lucide-react';
 
-const CardProjeto = ({ title, description, image_url, technologies, githubUrl, liveUrl }) => {
+const CardProjeto = ({ title, description, image_url, technologies, github_url, live_url }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -45,16 +45,16 @@ const CardProjeto = ({ title, description, image_url, technologies, githubUrl, l
         </div>
 
         <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 pt-2 border-t border-border/30">
-          {githubUrl && (
+          {github_url && (
             <Button variant="outline" size="sm" asChild className="w-full sm:w-auto">
-              <a href={githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
+              <a href={github_url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
                 <Github size={16} className="mr-2" /> GitHub
               </a>
             </Button>
           )}
-          {liveUrl && (
+          {live_url && (
             <Button variant="default" size="sm" asChild className="w-full sm:w-auto">
-              <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
+              <a href={live_url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
                 <ExternalLink size={16} className="mr-2" /> Ver Online
               </a>
             </Button>

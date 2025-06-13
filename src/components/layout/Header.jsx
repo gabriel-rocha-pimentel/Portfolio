@@ -47,7 +47,7 @@ const Header = () => {
               whileHover={{ scale: 1.1, rotate: 5 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <img  alt="Tech&Connect Logo" class="h-10 w-auto rounded-sm" src="https://images.unsplash.com/photo-1555617778-02518510b9fa?q=80&w=2070&auto=format&fit=crop" />
+              <img  alt="Tech&Connect Logo" className="h-10 w-auto rounded-sm" src="https://images.unsplash.com/photo-1555617778-02518510b9fa?q=80&w=2070&auto=format&fit=crop" />
             </motion.div>
             <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-400">
               Tech&Connect

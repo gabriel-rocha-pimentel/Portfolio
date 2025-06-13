@@ -29,7 +29,7 @@ const ContactInfoCard = ({ icon: Icon, title, content, href, delay, isLoading })
           <p className="text-sm text-foreground/70 dark:text-foreground/60 break-all">{content}</p>
         )
       ) : (
-         <p className="text-sm text-foreground/70 dark:text-foreground/60">Não disponível</p>
+        <p className="text-sm text-foreground/70 dark:text-foreground/60">Não disponível</p>
       )}
     </div>
   </motion.div>
@@ -40,17 +40,11 @@ const ContatoPage = () => {
   const [contactSettings, setContactSettings] = useState({
     email: '',
     phone: '',
-    address: 'Escritório Remoto - Atendemos Globalmente', 
+    address: 'Escritório Remoto - Atendemos Globalmente',
   });
   const [isLoadingSettings, setIsLoadingSettings] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
 
   useEffect(() => {
     const fetchContactSettings = async () => {
@@ -62,9 +56,8 @@ const ContatoPage = () => {
           .limit(1)
           .single();
 
-        if (error && error.code !== 'PGRST116') {
-          throw error;
-        }
+        if (error && error.code !== 'PGRST116') throw error;
+
         if (data) {
           setContactSettings(prev => ({
             ...prev,
@@ -94,12 +87,12 @@ const ContatoPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!contactSettings.email) {
-        toast({
-            title: "Erro de Configuração",
-            description: "O email de destino não está configurado. Contate o administrador.",
-            variant: "destructive",
-        });
-        return;
+      toast({
+        title: "Erro de Configuração",
+        description: "O email de destino não está configurado. Contate o administrador.",
+        variant: "destructive",
+      });
+      return;
     }
 
     setIsSubmitting(true);
@@ -110,7 +103,7 @@ const ContatoPage = () => {
           senderEmail: formData.email,
           subject: formData.subject,
           message: formData.message,
-          recipientEmail: contactSettings.email, 
+          recipientEmail: contactSettings.email,
         }),
       });
 
@@ -122,9 +115,9 @@ const ContatoPage = () => {
           description: "Obrigado por entrar em contato. Responderemos em breve.",
           variant: "default",
         });
-        setFormData({ name: '', email: '', subject: '', message: '' }); 
+        setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
-         throw new Error(data?.error || "Falha ao enviar email. Resposta da função desconhecida.");
+        throw new Error(data?.error || "Falha ao enviar email. Resposta da função desconhecida.");
       }
 
     } catch (error) {
@@ -203,19 +196,19 @@ const ContatoPage = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-foreground">Envie-nos uma Mensagem</h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <Label htmlFor="name" className="text-foreground/80 dark:text-foreground/70">Nome Completo</Label>
+              <Label htmlFor="name">Nome Completo</Label>
               <Input id="name" type="text" placeholder="Seu nome" value={formData.name} onChange={handleInputChange} required className="mt-1 bg-background/50 dark:bg-background/30" />
             </div>
             <div>
-              <Label htmlFor="email" className="text-foreground/80 dark:text-foreground/70">Email</Label>
+              <Label htmlFor="email">Email</Label>
               <Input id="email" type="email" placeholder="seu@email.com" value={formData.email} onChange={handleInputChange} required className="mt-1 bg-background/50 dark:bg-background/30" />
             </div>
             <div>
-              <Label htmlFor="subject" className="text-foreground/80 dark:text-foreground/70">Assunto</Label>
+              <Label htmlFor="subject">Assunto</Label>
               <Input id="subject" type="text" placeholder="Assunto da mensagem" value={formData.subject} onChange={handleInputChange} required className="mt-1 bg-background/50 dark:bg-background/30" />
             </div>
             <div>
-              <Label htmlFor="message" className="text-foreground/80 dark:text-foreground/70">Mensagem</Label>
+              <Label htmlFor="message">Mensagem</Label>
               <Textarea id="message" placeholder="Sua mensagem..." rows={5} value={formData.message} onChange={handleInputChange} required className="mt-1 bg-background/50 dark:bg-background/30" />
             </div>
             <Button type="submit" size="lg" className="w-full" disabled={isSubmitting || isLoadingSettings}>

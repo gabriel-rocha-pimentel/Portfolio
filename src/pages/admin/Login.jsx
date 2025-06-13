@@ -56,7 +56,7 @@ const LoginPage = () => {
         className="w-full max-w-md bg-card dark:bg-card/90 p-8 rounded-xl shadow-2xl border border-border/50 glass-card"
       >
         <div className="text-center mb-8">
-          <img  alt="Tech&Connect Admin Logo" class="h-12 w-auto mx-auto mb-4" src="https://images.unsplash.com/photo-1687288198686-a1bd07b331a2" />
+          <img  alt="Tech&Connect Admin Logo" className="h-12 w-auto mx-auto mb-4" src="https://images.unsplash.com/photo-1687288198686-a1bd07b331a2" />
           <h1 className="text-3xl font-bold text-primary">Login Admin</h1>
           <p className="text-foreground/70 dark:text-foreground/60">Acesse o painel de controle.</p>
         </div>

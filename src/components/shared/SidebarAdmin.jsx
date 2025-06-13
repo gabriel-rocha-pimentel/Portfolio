@@ -38,7 +38,7 @@ const SidebarAdmin = () => {
       className="w-64 bg-background dark:bg-background/80 border-r border-border/70 p-6 flex flex-col space-y-6 shadow-lg"
     >
       <Link to="/admin/dashboard" className="flex items-center space-x-2 mb-6">
-        <img  alt="Tech&Connect Admin Logo" class="h-10 w-auto" src="https://images.unsplash.com/photo-1687288198686-a1bd07b331a2" />
+        <img  alt="Tech&Connect Admin Logo" className="h-10 w-auto" src="https://images.unsplash.com/photo-1687288198686-a1bd07b331a2" />
         <span className="text-xl font-bold text-primary">Admin Panel</span>
       </Link>
       

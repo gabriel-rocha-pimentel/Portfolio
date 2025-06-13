@@ -99,7 +99,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
             <Link to="/" className="flex items-center space-x-2 mb-4">
-              <img  alt="Tech&Connect Logo Small" class="h-8 w-auto" src="https://images.unsplash.com/photo-1695480497603-381a2bee1c05" />
+              <img  alt="Tech&Connect Logo Small" className="h-8 w-auto" src="https://images.unsplash.com/photo-1695480497603-381a2bee1c05" />
               <span className="text-xl font-semibold text-foreground">{isLoading ? 'Carregando...' : companyInfo.name}</span>
             </Link>
             <p className="text-sm text-foreground/70 dark:text-foreground/60">

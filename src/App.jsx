@@ -1,28 +1,30 @@
-
-import React from 'react';
+// App.jsx (ajuste na estrutura e importações)
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { Toaster } from '@/components/ui/toaster';
-import { AuthProvider, useAuth } from '@/context/AuthContext.jsx';
+import { AuthProvider, useAuth } from '@/context/AuthContext';
 
-import Header from '@/components/layout/Header.jsx';
-import Footer from '@/components/layout/Footer.jsx';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import WhatsAppBanner from '@/components/layout/WhatsAppBanner';
 
-import HomePage from '@/pages/Home.jsx';
-import SobrePage from '@/pages/Sobre.jsx';
-import ProjetosPage from '@/pages/Projetos.jsx';
-import ContatoPage from '@/pages/Contato.jsx';
+import HomePage from '@/pages/Home';
+import SobrePage from '@/pages/Sobre';
+import ProjetosPage from '@/pages/Projetos';
+import ContatoPage from '@/pages/Contato';
 
-import LoginPage from '@/pages/admin/Login.jsx';
-import CriarUsuarioPage from '@/pages/admin/CriarUsuario.jsx';
-import EsqueciSenhaPage from '@/pages/admin/EsqueciSenha.jsx';
+import LoginPage from '@/pages/admin/Login';
+import CriarUsuarioPage from '@/pages/admin/CriarUsuario';
+import EsqueciSenhaPage from '@/pages/admin/EsqueciSenha';
 
-import AdminLayout from '@/components/layout/AdminLayout.jsx';
-import DashboardPage from '@/pages/admin/dashboard/Index.jsx';
-import PerfilPage from '@/pages/admin/dashboard/Perfil.jsx';
-import ConfiguracoesPage from '@/pages/admin/dashboard/Configuracoes.jsx';
-import RedesSociaisPage from '@/pages/admin/dashboard/RedesSociais.jsx';
-import AdminProjetosPage from '@/pages/admin/dashboard/Projetos.jsx';
+import AdminLayout from '@/components/layout/AdminLayout';
+import DashboardPage from '@/pages/admin/dashboard/Index';
+import PerfilPage from '@/pages/admin/dashboard/Perfil';
+import ConfiguracoesPage from '@/pages/admin/dashboard/Configuracoes';
+import RedesSociaisPage from '@/pages/admin/dashboard/RedesSociais';
+import AdminProjetosPage from '@/pages/admin/dashboard/Projetos';
 
+// Proteção de rota para usuários autenticados
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
 
@@ -34,34 +36,27 @@ function ProtectedRoute({ children }) {
     );
   }
 
-  if (!user) {
-    return <Navigate to="/admin/login" replace />;
-  }
-  return children;
+  return user ? children : <Navigate to="/admin/login" replace />;
 }
 
-function AppRoutes() {
-  return (
-    <div className="flex flex-col min-h-screen">
-      <Routes>
-        <Route path="/*" element={<MainLayout />} />
-        <Route path="/admin/login" element={<LoginPage />} />
-        <Route path="/admin/criar-usuario" element={<CriarUsuarioPage />} />
-        <Route path="/admin/esqueci-senha" element={<EsqueciSenhaPage />} />
-        <Route 
-          path="/admin/dashboard/*" 
-          element={
-            <ProtectedRoute>
-              <AdminDashboardRoutes />
-            </ProtectedRoute>
-          } 
-        />
-      </Routes>
-    </div>
-  );
-}
-
+// Layout público com banner do WhatsApp
 function MainLayout() {
+  const [showWhatsAppBanner, setShowWhatsAppBanner] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (sessionStorage.getItem('whatsappBannerClosed') !== 'true') {
+        setShowWhatsAppBanner(true);
+      }
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleCloseWhatsAppBanner = () => {
+    setShowWhatsAppBanner(false);
+    sessionStorage.setItem('whatsappBannerClosed', 'true');
+  };
+
   return (
     <>
       <Header />
@@ -73,11 +68,13 @@ function MainLayout() {
           <Route path="/contato" element={<ContatoPage />} />
         </Routes>
       </main>
+      <WhatsAppBanner visible={showWhatsAppBanner} onClose={handleCloseWhatsAppBanner} />
       <Footer />
     </>
   );
 }
 
+// Rotas protegidas para o painel administrativo
 function AdminDashboardRoutes() {
   return (
     <AdminLayout>
@@ -89,6 +86,28 @@ function AdminDashboardRoutes() {
         <Route path="projetos" element={<AdminProjetosPage />} />
       </Routes>
     </AdminLayout>
+  );
+}
+
+// Aplicação principal
+function AppRoutes() {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Routes>
+        <Route path="/*" element={<MainLayout />} />
+        <Route path="/admin/login" element={<LoginPage />} />
+        <Route path="/admin/criar-usuario" element={<CriarUsuarioPage />} />
+        <Route path="/admin/esqueci-senha" element={<EsqueciSenhaPage />} />
+        <Route
+          path="/admin/dashboard/*"
+          element={
+            <ProtectedRoute>
+              <AdminDashboardRoutes />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </div>
   );
 }
 

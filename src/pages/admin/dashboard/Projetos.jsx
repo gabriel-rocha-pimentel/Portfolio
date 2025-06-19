@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input.jsx";
 import { Textarea } from "@/components/ui/textarea.jsx";
 import { Label } from "@/components/ui/label.jsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.jsx";
-import { useToast } from "@/components/ui/use-toast";
-import { supabase } from "@/lib/supabaseClient.js";
-import { useAuth } from "@/context/AuthContext.jsx";
 import {
   PlusCircle,
   Edit,
@@ -18,261 +15,59 @@ import {
   List,
 } from "lucide-react";
 
-/****************************************************************************************
- * Utils
- ****************************************************************************************/
-const normalizeTechnologies = (tech) => {
-  if (Array.isArray(tech)) return tech;
-  if (typeof tech === "string" && tech.trim() !== "")
-    return tech.split(",").map((t) => t.trim());
-  return [];
-};
+import { useAuth } from "@/context/AuthContext.jsx";
+import { useProjects } from "@/hooks/useProjects.js";
+import { useProjectForm } from "@/hooks/useProjectForm.js";
 
-/****************************************************************************************
- * Constants
- ****************************************************************************************/
-const PROJECTS_TABLE = "projects";
-const PROJECTS_BUCKET = "project-images";
-
-/****************************************************************************************
- * Component
- ****************************************************************************************/
+/**********************************************
+ * Component – AdminProjetosPage
+ **********************************************/
 const AdminProjetosPage = () => {
-  const { toast } = useToast();
   const { user } = useAuth();
 
-  const [projects, setProjects] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentProject, setCurrentProject] = useState(null);
+  // Hook: data layer (fetch, delete, refresh)
+  const {
+    projects,
+    isLoading,
+    deleteProject,
+    refreshProjects,
+  } = useProjects(user);
 
-  // Form state
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [technologies, setTechnologies] = useState("");
-  const [githubUrl, setGithubUrl] = useState("");
-  const [liveUrl, setLiveUrl] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [imageFile, setImageFile] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // Hook: UI & form layer (modal, add / edit)
+  const {
+    /* modal */
+    isModalOpen,
+    openModal,
+    closeModal,
+    currentProject,
 
-  /**************************************************************************************
-   * Data Fetching
-   **************************************************************************************/
-  const fetchProjects = async () => {
-    if (!user) return;
-    setIsLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from(PROJECTS_TABLE)
-        .select("*")
-        .order("created_at", { ascending: false });
+    /* form state */
+    title,
+    setTitle,
+    description,
+    setDescription,
+    technologies,
+    setTechnologies,
+    githubUrl,
+    setGithubUrl,
+    liveUrl,
+    setLiveUrl,
+    imageUrl,
+    setImageUrl,
+    imageFile,
+    setImageFile,
 
-      if (error) throw error;
+    /* submit */
+    handleSubmitProject,
+    isSubmitting,
+  } = useProjectForm({
+    user,
+    onSuccess: refreshProjects
+});
 
-      const parsed = (data || []).map((p) => ({
-        ...p,
-        technologies: normalizeTechnologies(p.technologies),
-      }));
-      setProjects(parsed);
-    } catch (err) {
-      toast({
-        title: "Erro ao Carregar Projetos",
-        description: err.message,
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchProjects();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
-
-  /**************************************************************************************
-   * Storage helpers
-   **************************************************************************************/
-  const handleImageUpload = async (file) => {
-    if (!file) return null;
-
-    const fileName = `${Date.now()}_${file.name.replace(/\s/g, "_")}`;
-    const { data, error } = await supabase.storage
-      .from(PROJECTS_BUCKET)
-      .upload(fileName, file);
-
-    if (error) {
-      toast({
-        title: "Erro no Upload da Imagem",
-        description: error.message,
-        variant: "destructive",
-      });
-      return null;
-    }
-
-    const { data: publicUrlData } = supabase.storage
-      .from(PROJECTS_BUCKET)
-      .getPublicUrl(data.path);
-
-    return publicUrlData.publicUrl;
-  };
-
-  /**************************************************************************************
-   * Modal helpers
-   **************************************************************************************/
-  const openModal = (project = null) => {
-    setCurrentProject(project);
-
-    if (project) {
-      setTitle(project.title);
-      setDescription(project.description || "");
-      setTechnologies((project.technologies || []).join(", "));
-      setGithubUrl(project.github_url || "");
-      setLiveUrl(project.live_url || "");
-      setImageUrl(project.image_url || "");
-      setImageFile(null);
-    } else {
-      setTitle("");
-      setDescription("");
-      setTechnologies("");
-      setGithubUrl("");
-      setLiveUrl("");
-      setImageUrl("");
-      setImageFile(null);
-    }
-
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setCurrentProject(null);
-  };
-
-  /**************************************************************************************
-   * CRUD – Submit
-   **************************************************************************************/
-  const handleSubmitProject = async (e) => {
-    e.preventDefault();
-
-    if (!user) {
-      toast({
-        title: "Erro",
-        description: "Você precisa estar logado.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    // 1. Upload image if provided
-    let finalImageUrl = imageUrl;
-    if (imageFile) {
-      const uploadedUrl = await handleImageUpload(imageFile);
-      if (!uploadedUrl) {
-        setIsSubmitting(false);
-        return; // erro já tratado no handleImageUpload
-      }
-      finalImageUrl = uploadedUrl;
-    }
-
-    // 2. Build data object
-    const techArray = normalizeTechnologies(technologies);
-
-    const projectData = {
-      title,
-      description,
-      technologies: techArray,
-      github_url: githubUrl || null,
-      live_url: liveUrl || null,
-      image_url: finalImageUrl || null,
-    };
-
-    // 3. Insert or update
-    try {
-      if (currentProject) {
-        projectData.updated_at = new Date().toISOString();
-        const { error } = await supabase
-          .from(PROJECTS_TABLE)
-          .update(projectData)
-          .eq("id", currentProject.id);
-        if (error) throw error;
-      } else {
-        projectData.created_at = new Date().toISOString();
-        const { error } = await supabase
-          .from(PROJECTS_TABLE)
-          .insert(projectData);
-        if (error) throw error;
-      }
-
-      toast({
-        title: currentProject ? "Projeto Atualizado!" : "Projeto Adicionado!",
-        description: `O projeto "${title}" foi salvo com sucesso.`,
-      });
-
-      fetchProjects();
-      closeModal();
-    } catch (err) {
-      toast({
-        title: "Erro ao Salvar Projeto",
-        description: err.message,
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  /**************************************************************************************
-   * CRUD – Delete
-   **************************************************************************************/
-  const handleDeleteProject = async (id, projectTitle, projectImageUrl) => {
-    if (!window.confirm(`Tem certeza que deseja excluir o projeto "${projectTitle}"?`)) return;
-
-    setIsLoading(true);
-    try {
-      // 1. Delete row
-      const { error: dbError } = await supabase
-        .from(PROJECTS_TABLE)
-        .delete()
-        .eq("id", id);
-      if (dbError) throw dbError;
-
-      // 2. Delete image from storage
-      if (projectImageUrl) {
-        const fileName = decodeURIComponent(
-          projectImageUrl.substring(projectImageUrl.lastIndexOf("/") + 1)
-        );
-        const { error: storageError } = await supabase.storage
-          .from(PROJECTS_BUCKET)
-          .remove([fileName]);
-
-        // ignore "resource not found"
-        if (storageError && storageError.message !== "The resource was not found")
-          console.warn("Erro ao excluir imagem: ", storageError.message);
-      }
-
-      toast({
-        title: "Projeto Excluído!",
-        description: `O projeto "${projectTitle}" foi removido.`,
-      });
-      fetchProjects();
-    } catch (err) {
-      toast({
-        title: "Erro ao Excluir Projeto",
-        description: err.message,
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  /**************************************************************************************
-   * Render
-   **************************************************************************************/
+  /***************************************
+   * Loading indicator while bootstraping
+   ***************************************/
   if (isLoading && projects.length === 0) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -357,7 +152,7 @@ const AdminProjetosPage = () => {
                 <Button
                   variant="destructive"
                   size="sm"
-                  onClick={() => handleDeleteProject(project.id, project.title, project.image_url)}
+                  onClick={() => deleteProject(project.id, project.title, project.image_url)}
                   disabled={isSubmitting || isLoading}
                 >
                   <Trash2 size={14} className="mr-1" /> Excluir
@@ -430,7 +225,7 @@ const AdminProjetosPage = () => {
                 />
                 {imageUrl && !imageFile && (
                   <p className="text-xs mt-1 text-muted-foreground">
-                    Imagem atual: {" "}
+                    Imagem atual:{" "}
                     <a
                       href={imageUrl}
                       target="_blank"

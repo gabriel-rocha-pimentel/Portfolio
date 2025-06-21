@@ -4,6 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -119,7 +120,9 @@ function App() {
         <AppRoutes />
         <Toaster />
       </Router>
+
       <Analytics />
+      <SpeedInsights />
     </AuthProvider>
   );
 }

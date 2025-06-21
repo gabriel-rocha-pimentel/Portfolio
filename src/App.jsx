@@ -1,8 +1,9 @@
-// App.jsx (ajuste na estrutura e importações)
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
+
+import Analytics from '@/components/shared/Analytics';
 
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -117,6 +118,7 @@ function App() {
       <Router>
         <AppRoutes />
         <Toaster />
+        <Analytics />
       </Router>
     </AuthProvider>
   );

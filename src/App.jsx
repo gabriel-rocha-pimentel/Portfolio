@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 
-import Analytics from '@/components/shared/Analytics';
+import { Analytics } from "@vercel/analytics/react"
 
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -118,8 +118,8 @@ function App() {
       <Router>
         <AppRoutes />
         <Toaster />
-        <Analytics />
       </Router>
+      <Analytics />
     </AuthProvider>
   );
 }

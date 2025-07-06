@@ -1,86 +1,118 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
+    <!-- Meta Básicos -->
     <meta charset="UTF-8" />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="https://luhpdrcqztfexyorhrez.supabase.co/storage/v1/object/public/project-images/Profile/Logo.png"
-    />
-    <meta name="generator" content="Hostinger Horizons" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Tech&Connect | Desenvolvimento Web com IA & Automação</title>
-    <meta
-      name="description"
-      content="Desenvolvemos sites, automações inteligentes e cibersegurança que impulsionam empresas visionárias."
-    />
-    <meta
-      name="keywords"
-      content="desenvolvimento web com IA, automação inteligente, cibersegurança para empresas, desenvolvimento de apps, APIs escaláveis"
-    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Tech&Connect | Inovação em Web, IA, Automação & Cibersegurança</title>
+    <meta name="description"
+          content="Tech&Connect entrega websites ultra-rápidos, automações inteligentes, IA de ponta e cibersegurança robusta para empresas inovadoras. Cresça com performance e escalabilidade." />
+    <meta name="keywords"
+          content="desenvolvimento web, inteligência artificial, automação empresarial, cibersegurança, UX/UI, APIs, soluções digitais, performance web, core web vitals" />
     <meta name="author" content="Tech&Connect" />
-    <!-- Open Graph -->
+    <link rel="canonical" href="https://techconnect.app.br/" />
+    <meta name="theme-color" content="#0a192f" />
+
+    <!-- Preloads -->
+    <link rel="preload" as="image"
+          href="https://luhpdrcqztfexyorhrez.supabase.co/storage/v1/object/public/project-images/Profile/Logo.png" />
+
+    <!-- Favicons & Manifest -->
+    <link rel="icon" href="https://luhpdrcqztfexyorhrez.supabase.co/storage/v1/object/public/project-images/Profile/Logo.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Tech&Connect" />
     <meta property="og:url" content="https://techconnect.app.br/" />
-    <meta
-      property="og:title"
-      content="Desenvolvimento Web com IA & Automação | Tech&Connect"
-    />
-    <meta
-      property="og:description"
-      content="Web, IA, automação e segurança — inovação real para empresas visionárias."
-    />
-    <meta
-      property="og:image"
-      content="https://luhpdrcqztfexyorhrez.supabase.co/storage/v1/object/public/project-images/Profile/og-cover.png"
-    />
-    <meta
-      property="og:image:alt"
-      content="Mockup do dashboard de automação IA da Tech&Connect"
-    />
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Desenvolvimento Web com IA & Automação | Tech&Connect"
-    />
-    <meta
-      name="twitter:description"
-      content="Inovação web, automação IA e cibersegurança sob medida."
-    />
-    <meta
-      name="twitter:image"
-      content="https://luhpdrcqztfexyorhrez.supabase.co/storage/v1/object/public/project-images/Profile/og-cover.png"
-    />
+    <meta property="og:title" content="Tech&Connect | Inovação em Web, IA, Automação & Cibersegurança" />
+    <meta property="og:description"
+          content="Acelere seu negócio com sites super-rápidos, automação inteligente, IA avançada e segurança digital de alto nível." />
+    <meta property="og:image"
+          content="https://luhpdrcqztfexyorhrez.supabase.co/storage/v1/object/public/project-images/Profile/og-cover.png" />
+    <meta property="og:image:alt" content="Dashboard de automação IA da Tech&Connect" />
 
-    <meta
-      name="description"
-      content="A Tech&Connect transforma ideias em soluções digitais de ponta. Oferecemos desenvolvimento de software, design UX/UI e consultoria tecnológica para impulsionar o seu negócio."
-    />
-    <meta
-      name="keywords"
-      content="desenvolvimento de software, startup de tecnologia, soluções digitais, aplicativos, websites, design ux/ui, consultoria tech, inovação, tecnologia"
-    />
-    <meta
-      property="og:title"
-      content="Tech&Connect - Soluções Digitais Inovadoras"
-    />
-    <meta
-      property="og:description"
-      content="Transformamos ideias em realidade digital. Descubra nossos projetos e como podemos ajudar sua empresa a crescer."
-    />
-    <meta
-      property="og:image"
-      content="https://luhpdrcqztfexyorhrez.supabase.co/storage/v1/object/public/project-images/Profile/og-cover.png"
-    />
-    <meta property="og:url" content="https://techconnect.app.br" />
-    <meta property="og:type" content="website" />
-    <link rel="canonical" href="https://techconnect.app.br" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Tech&Connect | Inovação em Web, IA, Automação & Cibersegurança" />
+    <meta name="twitter:description"
+          content="Sites rápidos, automações e IA de última geração, além de cibersegurança avançada para empresas visionárias." />
+    <meta name="twitter:image"
+          content="https://luhpdrcqztfexyorhrez.supabase.co/storage/v1/object/public/project-images/Profile/og-cover.png" />
+
+    <!-- JSON‑LD: Organization, WebSite, FAQPage, ProfessionalService -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Tech&Connect",
+          "url": "https://techconnect.app.br/",
+          "logo": "https://luhpdrcqztfexyorhrez.supabase.co/storage/v1/object/public/project-images/Profile/Logo.png",
+          "description": "Desenvolvimento web, automação, IA e cibersegurança para empresas inovadoras.",
+          "sameAs": ["https://www.instagram.com/techconnectbranch"],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+55-38-991284050",
+            "contactType": "customer service",
+            "areaServed": "BR"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "name": "Tech&Connect",
+          "url": "https://techconnect.app.br/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://techconnect.app.br/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "ProfessionalService",
+          "name": "Tech&Connect",
+          "url": "https://techconnect.app.br/",
+          "serviceType": [
+            "Desenvolvimento Web",
+            "Inteligência Artificial",
+            "Automação",
+            "Cibersegurança"
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Quais serviços a Tech&Connect oferece?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Desenvolvimento de sites responsivos, automações inteligentes, soluções em IA e consultoria em cibersegurança."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Como contratar um projeto?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Envie um e‑mail para techconnectbranch@gmail.com ou preencha o formulário no nosso site."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- A11Y & Performance -->
+    <html lang="pt-BR" />
+    <body>
+      <header role="banner">…</header>
+      <main id="root" role="main">…</main>
+      <footer role="contentinfo">…</footer>
+      <script type="module" src="/src/main.jsx" defer></script>
+    </body>
 </html>
